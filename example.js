@@ -26,7 +26,7 @@ app.post('/google-home-notifier', urlencodedParser, function (req, res) {
     language;
   }
 
-  googlehome.ip(ip, language);
+  // googlehome.ip(ip, language);
   googlehome.device(deviceName,language);
 
   if (text){
@@ -68,7 +68,7 @@ app.get('/google-home-notifier', function (req, res) {
     language;
   }
 
-  googlehome.ip(ip, language);
+  // googlehome.ip(ip, language);
   googlehome.device(deviceName,language);
 
   if (text) {
@@ -96,7 +96,8 @@ app.get('/google-home-notifier', function (req, res) {
 })
 
 app.listen(serverPort, function () {
-  ngrok.connect(serverPort, function (err, url) {
+  ngrok.connect(serverPort).then(url =>{
+    console.log(url);
     console.log('Endpoints:');
     console.log('    http://' + ip + ':' + serverPort + '/google-home-notifier');
     console.log('    ' + url + '/google-home-notifier');
@@ -104,5 +105,5 @@ app.listen(serverPort, function () {
     console.log('curl -X GET ' + url + '/google-home-notifier?text=Hello+Google+Home');
 	console.log('POST example:');
 	console.log('curl -X POST -d "text=Hello Google Home" ' + url + '/google-home-notifier');
-  });
+  }, err => console.log(err) )
 })
